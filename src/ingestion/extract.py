@@ -28,8 +28,10 @@ LETTER = re.compile(r"[A-Za-z\u0900-\u097F]")
 # "10/17/26, 8:20 AM Press Release Page | Press Information Bureau"
 # "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2135694 1/2"
 BROWSER_NOISE = [
-    re.compile(r"^\d{1,2}/\d{1,2}/\d{2,4}, \d{1,2}:\d{2} ?[AP]M\b"),
-    re.compile(r"^https?://\S+\s+\d+/\d+$"),
+    re.compile(r"^\d{1,2}/\d{1,2}/\d{2,4}, \d{1,2}:\d{2} ?[AP]M\b"),  # print date/time
+    re.compile(r"^https?://\S+(\s+\d+/\d+)?$"),                     # URL line (+ page count)
+    re.compile(r"^\d{1,2}/\d{1,2}$"),                                 # page count "6/8"
+    re.compile(r"^Press Release Page \| Press Information Bureau$"),  # PIB page title
 ]
 
 
