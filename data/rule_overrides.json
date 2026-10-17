@@ -1,0 +1,41 @@
+[
+    {
+        "doc": "2015_refund_rules_irctc_updated_2026-01.pdf",
+        "section": "^1\\. Cancellation Charges for Confirmed Tickets",
+        "text": "between forty eight hours and upto twelve",
+        "set": {
+            "status": "partly_superseded",
+            "superseded_by": "2026-03-24_pib_cancellation_reform.pdf; 2026-04_new_india_samachar_refund_slabs.pdf",
+            "note": "For normal trains, the 48h / 12h / 4h windows were replaced in April 2026 by 72h / 24h / 8h (25% deduction 72-24h, 50% deduction 24-8h, no refund under 8h). The flat per-class amounts in (a) are still the latest official figures."
+        }
+    },
+    {
+        "doc": "2015_refund_rules_irctc_updated_2026-01.pdf",
+        "section": "^1\\. Cancellation Charges for Confirmed Tickets",
+        "text": "In the case of Vande Bharat Sleeper Express",
+        "set": {
+            "applies_to": "vb_sleeper_amrit_bharat_2",
+            "note": "Applies only to Vande Bharat Sleeper and Amrit Bharat II Express (from 16 Jan 2026, G.S.R. 41(E))."
+        }
+    },
+    {
+        "doc": "2015_refund_rules_irctc_updated_2026-01.pdf",
+        "section": "^13\\. CANCELLATION OF E-TICKETS",
+        "text": "After preparation of charts, the user shall have to file online TDR",
+        "set": {
+            "status": "partly_superseded",
+            "superseded_by": "2026-03-24_pib_cancellation_reform.pdf",
+            "note": "PIB (24 Mar 2026) says filing a TDR is no longer required for e-ticket cancellation; refunds are processed automatically on cancellation. TDR cases for train delays, AC failure etc. are not mentioned in that change."
+        }
+    },
+    {
+        "doc": "2015_refund_rules_irctc_updated_2026-01.pdf",
+        "section": "^14\\. E-Ticket TDR Refund eligibility",
+        "text": "Passenger Not Travelled\\s+No refund of fare",
+        "set": {
+            "status": "partly_superseded",
+            "superseded_by": "2026-03-24_pib_cancellation_reform.pdf",
+            "note": "Row 8 ('Passenger Not Travelled', 4-hour limit for confirmed tickets) is outdated: since April 2026 there is no refund for confirmed tickets cancelled less than 8 hours before departure. Other rows in this table are unchanged."
+        }
+    }
+]

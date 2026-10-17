@@ -19,6 +19,7 @@ from statistics import median
 PAGES_FILE = Path("data/processed/pages.jsonl")
 SOURCES_FILE = Path("data/sources.csv")
 OUT_FILE = Path("data/processed/chunks.jsonl")
+OVERRIDES_FILE = Path("data/rule_overrides.json")
 
 TARGET_WORDS = 250   # start looking for a split point after this many words
 MAX_WORDS = 400      # always split here, even mid-clause
@@ -172,6 +173,32 @@ def size_split(body):
     return parts
 
 
+def apply_overrides(chunks: list[dict]) -> int:
+    """Set chunk-level status / applies_to / notes from data/rule_overrides.json.
+
+    A document marked 'partly_superseded' in sources.csv is mostly still valid,
+    so its chunks start as 'current'; the overrides then mark the outdated parts.
+    Every override must match exactly ONE chunk, otherwise we stop with an error
+    (so a change in chunking can never silently drop a rule correction).
+    """
+    for c in chunks:
+        c["note"], c["superseded_by"] = "", ""
+        if c["status"] == "partly_superseded":
+            c["status"] = "current"
+    overrides = json.loads(OVERRIDES_FILE.read_text(encoding="utf-8"))
+    for o in overrides:
+        hits = [
+            c for c in chunks
+            if c["doc"] == o["doc"]
+            and re.search(o["section"], c["section"])
+            and re.search(o["text"], c["text"])
+        ]
+        if len(hits) != 1:
+            raise ValueError(f"override matched {len(hits)} chunks (need exactly 1): {o['text']!r}")
+        hits[0].update(o["set"])
+    return len(overrides)
+
+
 def main() -> None:
     sources = load_sources()
     docs = load_lines()
@@ -208,6 +235,7 @@ def main() -> None:
                     "authority": meta["authority"],
                     "doc_type": meta["doc_type"],
                 })
+    n_overrides = apply_overrides(all_chunks)
     with OUT_FILE.open("w", encoding="utf-8") as f:
         for c in all_chunks:
             f.write(json.dumps(c, ensure_ascii=False) + "\n")
@@ -217,7 +245,12 @@ def main() -> None:
         w = [c["words"] for c in all_chunks if c["doc"] == doc]
         print(f"{doc[:50]:50} {len(w):>6} {min(w):>5} {int(median(w)):>5} {max(w):>5}")
     print(f"\n{len(all_chunks)} chunks saved to {OUT_FILE}")
-
+    print(f"{n_overrides} rule overrides applied")
+    for key in ("status", "applies_to"):
+        counts: dict[str, int] = {}
+        for c in all_chunks:
+            counts[c[key]] = counts.get(c[key], 0) + 1
+        print(f"{key:>10}: {counts}")
 
 if __name__ == "__main__":
     main()
