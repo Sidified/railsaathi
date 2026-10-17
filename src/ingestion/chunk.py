@@ -196,6 +196,12 @@ def apply_overrides(chunks: list[dict]) -> int:
         if len(hits) != 1:
             raise ValueError(f"override matched {len(hits)} chunks (need exactly 1): {o['text']!r}")
         hits[0].update(o["set"])
+    # every superseded_by entry must be a real chunk id
+    ids = {c["chunk_id"] for c in chunks}
+    for c in chunks:
+        for newer in filter(None, (s.strip() for s in c["superseded_by"].split(";"))):
+            if newer not in ids:
+                raise ValueError(f"{c['chunk_id']}: superseded_by points to unknown chunk {newer!r}")
     return len(overrides)
 
 

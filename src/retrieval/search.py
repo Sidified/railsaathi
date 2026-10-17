@@ -75,24 +75,19 @@ def rrf_merge(*ranked_lists: list[dict]) -> list[tuple[str, float]]:
 
 
 def expand_superseded(ranked: list[tuple[str, float]]) -> list[tuple[str, float]]:
-    """If an outdated chunk is in the results, put its newer source just BEFORE it,
-    so the current rule is always seen first (and the old one only as context)."""
+    """If an outdated chunk is in the results, put the chunk(s) that replace it
+    (its 'superseded_by' list) just BEFORE it, so the current rule is seen first."""
     chunks = load_chunks()
-    position = {cid: i for i, (cid, _) in enumerate(ranked)}
     out, seen = [], set()
     for cid, score in ranked:
-        for newer_doc in filter(None, (d.strip() for d in chunks[cid]["superseded_by"].split(";"))):
-            # the newer document's best-ranked chunk (or its first chunk if none was found)
-            candidates = [c for c in chunks if chunks[c]["doc"] == newer_doc]
-            best = min(candidates, key=lambda c: position.get(c, len(ranked) + int(c[-2:])))
-            if best not in seen:
-                out.append((best, score))
-                seen.add(best)
+        for newer in filter(None, (s.strip() for s in chunks[cid]["superseded_by"].split(";"))):
+            if newer not in seen:
+                out.append((newer, score))
+                seen.add(newer)
         if cid not in seen:
             out.append((cid, score))
             seen.add(cid)
     return out
-
 
 def hybrid_search(query: str, k: int = 5) -> list[dict]:
     ranked = rrf_merge(vector_search(query, CANDIDATES), bm25_search(query, CANDIDATES))
