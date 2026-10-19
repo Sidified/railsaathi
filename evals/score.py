@@ -22,6 +22,8 @@ OLD_RULE = re.compile(r"\b(48|12|4)\s*(-|to)?\s*(hours?|hrs?|h|ghante)\b", re.I)
 # ...but mentioning the old rule in order to correct it ("the old 48-hour rule was revised") is right.
 CORRECTED = re.compile(r"\b(old|older|earlier|previous|revised|replaced|no longer|purana|pehle ka|ab nahi)\b", re.I)
 MONEY = re.compile(r"(?:Rs\.?|₹|INR)\s*([\d,]+(?:\.\d{1,2})?)", re.I)
+# The agent's honest "I don't have this rule" answer (English or Hinglish)
+ABSTAIN = re.compile(r"not sure based on the official rules|pakka nahi|official rules mein nahi", re.I)
 
 
 def load(p: Path) -> list[dict]:
@@ -97,9 +99,13 @@ def main() -> None:
         else:
             check("no_false_refusal", q, main_route != "refuse", "refused an in-scope question")
 
-        # 5. Every answer that went through retrieval cites at least one source
+        # 5. Sources: every real answer cites something; honest "not sure" answers are counted apart
+        abstained = bool(ABSTAIN.search(a["answer"]))
         if main_route in ("retrieve", "calculator", "tdr_tool"):
-            check("has_sources", q, len(a.get("sources", [])) > 0, "no sources attached")
+            check("abstain", q, not abstained, "said 'not sure'"
+                  + (" (topic may not be in docs)" if q.get("in_docs") == "check" else " (topic IS in docs)"))
+            if not abstained:
+                check("has_sources", q, len(a.get("sources", [])) > 0, "no sources attached")
 
         # 6. Old-rule check on stale traps: old cut-off stated WITHOUT saying it's outdated
         if q["slice"] == "stale_trap":

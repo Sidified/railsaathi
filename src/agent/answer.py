@@ -36,7 +36,9 @@ Rules:
    official rules I have" and suggest IRCTC or 139. Do not guess.
 6. Do not predict whether a waitlisted ticket will be confirmed.
 7. Write in {language}. Simple words. Under 150 words. Do not add a sources list - it is added
-   automatically."""
+   automatically.
+8. If the question assumes an OLD rule (48 hours, 12 hours or 4 hours as cancellation cut-offs),
+   first say clearly that this rule was replaced, then answer with the current rule. Never repeat the user's old cut-off as if it were a rule."""
 
 MONEY = re.compile(
     r"(?:Rs\.?|₹|INR)\s*([\d,]+(?:\.\d+)?)"            # Rs 925, ₹925.00, INR 1,850

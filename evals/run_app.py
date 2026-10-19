@@ -17,7 +17,7 @@ from src.agent.graph import run
 SET = Path("evals/eval_set.jsonl")
 OUT = Path("evals/results/answers.jsonl")
 ROUTES = ("refuse", "ask_missing", "calculator", "tdr_tool", "retrieve")
-PAUSE = 8          # seconds between questions: max 2 calls each -> stays under 15 calls/minute
+PAUSE = 1          # seconds between questions: max 2 calls each -> stays under 15 calls/minute
 
 
 def is_quota_error(e: Exception) -> bool:
@@ -38,6 +38,7 @@ def record(q: dict, s: dict, latency_ms: int) -> dict:
         "latency_ms": latency_ms,
         "answer": s.get("answer", ""),
         "fallback_used": s.get("fallback_used", False),
+        "check_problems": s.get("check_problems") or [],
         "tool_name": s.get("tool_name"),
         "tool_rule_id": tr.get("rule_id"),
         "tool_refund_total": str(tr["refund_total"]) if tr.get("refund_total") is not None else None,
