@@ -14,8 +14,10 @@ charset-normalizer==3.5.2
 chromadb==1.5.9
 click==8.5.0
 cryptography==50.0.2
+Deprecated==3.0.0
 distro==1.9.0
 durationpy==0.11
+fastapi==0.146.0
 fastembed==0.9.0
 filelock==4.2.0
 filetype==1.2.0
@@ -51,6 +53,7 @@ langgraph-checkpoint==4.3.0
 langgraph-prebuilt==1.1.1
 langgraph-sdk==0.4.8
 langsmith==0.14.11
+limits==5.8.0
 loguru==0.7.3
 markdown-it-py==4.2.0
 mdurl==0.1.2
@@ -100,8 +103,10 @@ rich==15.0.0
 rpds-py==2026.9.1
 shellingham==1.5.4
 six==1.17.0
+slowapi==0.1.10
 sniffio==1.3.1
 sortedcontainers==2.4.0
+starlette==1.9.0
 tenacity==9.1.4
 tokenizers==0.23.3
 tqdm==4.70.1
@@ -116,6 +121,7 @@ uvloop==0.23.0
 watchfiles==1.3.0
 websocket-client==1.9.2
 websockets==16.1.1
+wrapt==2.5.1
 xxhash==4.0.1
 yarl==1.25.1
 zstandard==0.25.0
