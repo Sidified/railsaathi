@@ -46,6 +46,10 @@ kubernetes==37.0.1
 langchain-core==1.6.12
 langchain-google-genai==4.4.2
 langchain-protocol==0.0.19
+langgraph==1.2.16
+langgraph-checkpoint==4.3.0
+langgraph-prebuilt==1.1.1
+langgraph-sdk==0.4.8
 langsmith==0.14.11
 loguru==0.7.3
 markdown-it-py==4.2.0
@@ -63,6 +67,7 @@ opentelemetry-proto==1.45.1
 opentelemetry-sdk==1.45.1
 opentelemetry-semantic-conventions==0.66b1
 orjson==3.13.0
+ormsgpack==1.13.0
 overrides==7.7.0
 packaging==26.3
 pillow==12.3.0
