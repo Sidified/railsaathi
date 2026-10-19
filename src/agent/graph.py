@@ -1,7 +1,7 @@
 """The RailSaathi agent as a LangGraph state graph (see docs/agent_graph.md).
 
-Step 5b: classify + routing + tools + retrieve. Generation is added in Step 5c.
-LLM calls: 1 (classify) so far.
+classify (LLM 1) -> route -> tools -> retrieve -> generate (LLM 2) -> self_check -> finalize/fallback.
+LLM calls: at most 2 per question.
 """
 from typing import Any, TypedDict
 
@@ -9,6 +9,7 @@ from langgraph.graph import END, START, StateGraph
 from pydantic import ValidationError
 
 from src.agent import classify as classify_module
+from src.agent.answer import fallback_node, finalize_node, generate_node, self_check_node
 from src.agent.classify import Classification
 from src.retrieval.search import hybrid_search
 from src.tools.refund_calculator import RefundRequest, calculate_refund
@@ -35,6 +36,10 @@ class AgentState(TypedDict, total=False):
     tool_result: dict
     chunks: list[dict]
     answer: str
+    check_problems: list[str]
+    fallback_used: bool
+    sources: list[dict]
+    disclaimer: str
     path: list[str]          # node names visited, for tests and tracing
     llm_calls: int
 
@@ -129,6 +134,10 @@ def route_tdr(state: AgentState) -> str:
     return "ask_missing" if state["missing"] else "tdr_tool"
 
 
+def route_check(state: AgentState) -> str:
+    return "fallback" if state["check_problems"] else "finalize"
+
+
 # ----------------------------------------------------------------- graph
 def build_graph():
     g = StateGraph(AgentState)
@@ -140,6 +149,10 @@ def build_graph():
     g.add_node("calculator", calculator_node)
     g.add_node("tdr_tool", tdr_node)
     g.add_node("retrieve", retrieve_node)
+    g.add_node("generate", generate_node)
+    g.add_node("self_check", self_check_node)
+    g.add_node("fallback", fallback_node)
+    g.add_node("finalize", finalize_node)
 
     g.add_edge(START, "classify")
     g.add_conditional_edges("classify", route_intent,
@@ -148,9 +161,13 @@ def build_graph():
     g.add_conditional_edges("check_tdr_details", route_tdr, ["ask_missing", "tdr_tool"])
     g.add_edge("calculator", "retrieve")
     g.add_edge("tdr_tool", "retrieve")
-    g.add_edge("refuse", END)
-    g.add_edge("ask_missing", END)
-    g.add_edge("retrieve", END)          # Step 5c: retrieve -> generate -> self_check -> ...
+    g.add_edge("retrieve", "generate")
+    g.add_edge("generate", "self_check")
+    g.add_conditional_edges("self_check", route_check, ["fallback", "finalize"])
+    g.add_edge("fallback", "finalize")
+    g.add_edge("refuse", "finalize")
+    g.add_edge("ask_missing", "finalize")
+    g.add_edge("finalize", END)
     return g.compile()
 
 
@@ -165,15 +182,11 @@ if __name__ == "__main__":
     import sys
     s = run(" ".join(sys.argv[1:]))
     c = s["classification"]
-    print(f"path:      {' -> '.join(s['path'])}")
-    print(f"intent:    {c.intent} | language: {c.language} | query: {c.search_query!r}")
-    print(f"LLM calls: {s['llm_calls']}")
-    if s.get("answer"):
-        print(f"answer:    {s['answer']}")
-    if s.get("tool_result"):
-        r = s["tool_result"]
-        print(f"tool:      {s['tool_name']} -> {r.get('rule_id')} | refund_total={r.get('refund_total')} "
-              f"| deadline={r.get('deadline')}")
-        print(f"defaults:  {s.get('defaults_used')}")
-    if s.get("chunks"):
-        print(f"chunks:    {[c['chunk_id'] for c in s['chunks']]}")
+    print(f"\nQ: {s['question']}\n\n{s['answer']}\n")
+    for i, src in enumerate(s.get("sources", []), start=1):
+        pages = ",".join(map(str, src["pages"]))
+        print(f"  source {i}: {src['title']} (p. {pages}, effective {src['effective_from']})\n            {src['source_url']}")
+    print(f"\n{s['disclaimer']}")
+    print(f"\npath: {' -> '.join(s['path'])}")
+    print(f"intent: {c.intent} | language: {c.language} | LLM calls: {s['llm_calls']} | "
+          f"fallback: {s.get('fallback_used')} | check problems: {s.get('check_problems')}")
