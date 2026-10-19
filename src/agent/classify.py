@@ -36,8 +36,9 @@ class TicketDetails(BaseModel):
 
 class Classification(BaseModel):
     intent: Intent = Field(description=(
-        "refund_calc: ONLY when the user wants the AMOUNT for THEIR OWN ticket "
-        "('how much will I get back', 'kitna milega', 'my 2AC ticket of Rs 900...'). "
+        "refund_calc: the user wants the AMOUNT they will get back or lose for THEIR OWN ticket, "
+        "EVEN IF they have not given the details yet ('I want to cancel, how much will I get?', "
+        "'kitna milega?') - we will ask for missing details. "
         "rule_question: how a rule works in general, even if it mentions refunds or charges: "
         "'is there a fee for...', 'will I get a refund if...', 'why was Rs X deducted', "
         "'when will the money come', 'what are the charges for...', 'best time to cancel'. "
@@ -47,13 +48,16 @@ class Classification(BaseModel):
         "out_of_scope: NOT a passenger rule: live PNR or train status, chances of a waitlist/RAC ticket "
         "getting confirmed, how to book, payment failures or money deducted without a ticket, "
         "IRCTC account/e-wallet/app problems, third-party add-ons like 'free cancellation' insurance, "
-        "customer care, anything not about trains."))
+        "customer care, anything not about trains."
+        "Rules about upgrades, boarding change, cancellation, Tatkal or TDR are NOT out_of_scope, "
+        "even when the user mentions IRCTC or the app."))
     language: Literal["en", "hinglish"] = Field(description="hinglish if the user writes Hindi in Roman letters")
     search_query: str = Field(description="A short, standalone ENGLISH search query for the rules, using words from official rules (e.g. 'RAC ticket cancellation clerkage refund')")
     ticket: TicketDetails = Field(default_factory=TicketDetails)
     tdr_situation: Situation | None = Field(None, description=(
-        "Only for intent=tdr, if the situation is clear. partial_travel = only some passengers on the "
-        "PNR travelled. did_not_travel_own_choice = the user simply decided not to travel."))
+        "Only for intent=tdr, if the situation is clear. train_cancelled = Railways cancelled the train. "
+        "partial_travel = only some passengers on the PNR travelled. "
+        "did_not_travel_own_choice = the user simply decided not to travel (no railway fault)."))
     booking_type: BookingType | None = Field(None, description="e_ticket if booked online/IRCTC/app, counter_ticket if bought at station")
 
 

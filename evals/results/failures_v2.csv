@@ -1,0 +1,25 @@
+metric,id,slice,lang,origin,question,detail
+has_sources,d055,missing_info,en,drafted,I want to cancel my ticket. How much refund will I get?,no sources attached
+has_sources,q001,rule,en,real,In AC class my RAC berth is shared with another passenger. Do I get any partial refund?,no sources attached
+has_sources,q009,rule,en,real,"There are some charges for cancellation like platform fee, gst, plus fixed charges of 120/180/240 rs, but why do I also see an extra 10 rupees deducted?",no sources attached
+has_sources,q012,rule,en,real,Not sure but does it deduct fee when it auto cancels post waiting as well ?,no sources attached
+has_sources,q033,tdr,en,real,My TDR has been repudiated (rejected) by Central Railway because I selected the wrong reason. What can I do?,no sources attached
+has_sources,q049,rule,en,real,Is boarding station change allowed on Premium Tatkal or current booking ticket?,no sources attached
+has_sources,q051,rule,hinglish,real,"Confirmed tatkal ticket galat book ho gaya, waise to I don't think koi milega par kya kisi aur ko ticket sell ya transfer kar sakte hai?",no sources attached
+has_sources,q054,rule,en,real,Can I take 2 23kg bag in Vande Bharat?,no sources attached
+has_sources,q055,rule,en,real,It seems like 65 kgs is the total weight and the allowed baggage is 35 so excess of 30 kg is being charged at 9 rupees per kg = 270 Rs right?,no sources attached
+has_sources,q058,rule,en,real,"My train got delayed by 4 Hrs, can i travel with confirmed ticket (Booked online) on another in same route?",no sources attached
+has_sources,q070,missing_info,en,real,Need help to understand the reimbursement charges if I cancel my 3AC in duranto express?,no sources attached
+no_false_refusal,q056,rule,en,real,How to upgrade class of service on IRCTC web ticket for when a higher class (1A or EC) of service becomes available?,refused an in-scope question
+no_old_rule_stale,q080,stale_trap,hinglish,real,Agar main 48 ghante se pehle cancel karu toh full refund milna chahiye na?,mentions '48 ghante' as current
+refund_exact,q018,refund,en,real,"Cancelled a confirmed Tatkal 3E ticket 25 hours before departure, what refund can I expect?","expected 0.00, tool None, amounts in answer []"
+routing,d049,tdr,en,drafted,Train was cancelled by railways. Do I need to file a TDR for my e-ticket?,"got retrieve, expected ['calculator', 'tdr_tool']"
+routing,d050,tdr,en,drafted,"I just decided not to travel today, train leaves in 3 hours. Should I file a TDR?","got retrieve, expected ['calculator', 'tdr_tool']"
+routing,d055,missing_info,en,drafted,I want to cancel my ticket. How much refund will I get?,"got retrieve, expected ['ask_missing']"
+routing,d056,missing_info,en,drafted,"3AC ticket, cancelling tomorrow. Refund?","got retrieve, expected ['ask_missing']"
+routing,d058,missing_info,hinglish,drafted,"sleeper ticket hai, kal ki train, cancel karu toh refund?","got retrieve, expected ['ask_missing']"
+routing,q016,rule,en,real,"I booked tatkal e-ticket for 4 people in EC class of Vande Bharat, out of which only one is confirmed. If I cancel all the four including the one confirmed, how much refund will I get?","got ask_missing, expected ['retrieve']"
+routing,q056,rule,en,real,How to upgrade class of service on IRCTC web ticket for when a higher class (1A or EC) of service becomes available?,"got refuse, expected ['retrieve']"
+routing,q067,missing_info,en,real,"My train is late by more than 10 hr, how much refund i can get?","got tdr_tool, expected ['ask_missing', 'retrieve']"
+tdr_situation,d049,tdr,en,drafted,Train was cancelled by railways. Do I need to file a TDR for my e-ticket?,"expected T1, got None via retrieve"
+tdr_situation,d050,tdr,en,drafted,"I just decided not to travel today, train leaves in 3 hours. Should I file a TDR?","expected T10, got None via retrieve"
