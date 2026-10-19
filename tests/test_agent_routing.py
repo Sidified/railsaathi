@@ -129,3 +129,10 @@ def test_tdr_assumption_mentions_eticket(fake_llm):
     fake_llm(intent="tdr", tdr_situation="ac_failure", answer="File a TDR within 20 hours [1].")
     s = run("AC was not working")
     assert "e-ticket" in s["answer"] and "confirmed" not in s["answer"]
+
+
+def test_citations_are_renumbered_to_match_sources_list(fake_llm):
+    fake_llm(intent="rule_question", answer="Rule A [3]. Rule B [5][3].")
+    s = run("Can I change my boarding station?")
+    assert s["answer"] == "Rule A [1]. Rule B [2][1]."
+    assert len(s["sources"]) == 2

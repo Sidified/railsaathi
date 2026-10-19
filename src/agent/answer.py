@@ -177,9 +177,18 @@ def fallback_node(state: dict) -> dict:
     return {"answer": "\n".join(lines), "fallback_used": True, "path": state["path"] + ["fallback"]}
 
 
+def renumber_citations(answer: str, cited: list[dict]) -> str:
+    """Make citation numbers match the order of the sources list: if only [2] and [4] are
+    cited, they become [1] and [2]. So "[1]" in the answer = first source shown in the UI."""
+    mapping = {c["n"]: i for i, c in enumerate(cited, start=1)}
+    return re.sub(r"\[(\d+)\]", lambda m: f"[{mapping.get(int(m.group(1)), m.group(1))}]", answer)
+
+
 def finalize_node(state: dict) -> dict:
     """Attach sources (cited chunks + the tool's own source chunks) and the disclaimer."""
-    cited, _ = build_citations(state.get("answer", ""), state.get("chunks", []))
+    answer = state.get("answer", "")
+    cited, _ = build_citations(answer, state.get("chunks", []))
+    answer = renumber_citations(answer, cited)
     all_chunks = load_chunks()
     tool_ids = (state.get("tool_result") or {}).get("sources", [])
     seen, sources = set(), []
@@ -189,7 +198,6 @@ def finalize_node(state: dict) -> dict:
         seen.add(ch["chunk_id"])
         sources.append({k: ch[k] for k in ("chunk_id", "title", "section", "pages", "effective_from",
                                            "source_url", "status", "note")})
-    answer = state.get("answer", "")
     if state.get("tool_result") and "error" not in state["tool_result"]:
         line = assumptions_line(state.get("defaults_used"), state["classification"].language == "hinglish")
         if line:

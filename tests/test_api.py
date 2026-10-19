@@ -64,3 +64,8 @@ def test_gemini_quota_error_becomes_friendly_503(client, monkeypatch):
     monkeypatch.setattr(classify_module, "classify", boom)
     r = client.post("/chat", json={"message": "refund?"})
     assert r.status_code == 503 and "busy" in r.json()["detail"]
+
+
+def test_ui_is_served(client):
+    r = client.get("/")
+    assert r.status_code == 200 and "RailSaathi" in r.text

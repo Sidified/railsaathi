@@ -20,7 +20,7 @@ from typing import Literal
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
@@ -110,6 +110,11 @@ app.state.limiter = limiter
 def rate_limited(request: Request, exc: RateLimitExceeded):
     return JSONResponse(status_code=429, content={
         "detail": "Too many questions from you right now. Please wait a minute and try again."})
+
+
+@app.get("/", include_in_schema=False)
+def ui():
+    return FileResponse("ui/index.html")
 
 
 @app.get("/health")
