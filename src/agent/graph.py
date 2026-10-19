@@ -131,7 +131,9 @@ def route_refund(state: AgentState) -> str:
 
 
 def route_tdr(state: AgentState) -> str:
-    return "ask_missing" if state["missing"] else "tdr_tool"
+    # A general TDR question (filing, rejection, deadlines) has no single situation:
+    # answer it from the rules instead of asking the user to pick one.
+    return "retrieve" if state["missing"] else "tdr_tool"
 
 
 def route_check(state: AgentState) -> str:
@@ -158,7 +160,7 @@ def build_graph():
     g.add_conditional_edges("classify", route_intent,
                             ["refuse", "retrieve", "check_refund_details", "check_tdr_details"])
     g.add_conditional_edges("check_refund_details", route_refund, ["ask_missing", "calculator"])
-    g.add_conditional_edges("check_tdr_details", route_tdr, ["ask_missing", "tdr_tool"])
+    g.add_conditional_edges("check_tdr_details", route_tdr, ["retrieve", "tdr_tool"])
     g.add_edge("calculator", "retrieve")
     g.add_edge("tdr_tool", "retrieve")
     g.add_edge("retrieve", "generate")

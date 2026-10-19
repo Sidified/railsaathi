@@ -14,13 +14,13 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 SET = Path("evals/eval_set.jsonl")
-ANS = Path("evals/results/answers.jsonl")
-REPORT = Path("evals/results/report.md")
-FAILS = Path("evals/results/failures.csv")
+RESULTS = Path("evals/results")
 
 # Old 2015 cut-offs presented as the rule. Crude on purpose: every hit is listed in failures.csv
 # so a human can confirm it.
 OLD_RULE = re.compile(r"\b(48|12|4)\s*(-|to)?\s*(hours?|hrs?|h|ghante)\b", re.I)
+# ...but mentioning the old rule in order to correct it ("the old 48-hour rule was revised") is right.
+CORRECTED = re.compile(r"\b(old|older|earlier|previous|revised|replaced|no longer|purana|pehle ka|ab nahi)\b", re.I)
 MONEY = re.compile(r"(?:Rs\.?|₹|INR)\s*([\d,]+(?:\.\d{1,2})?)", re.I)
 
 
@@ -43,6 +43,16 @@ def pct(hits: int, n: int) -> str:
 
 
 def main() -> None:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--answers", default="answers.jsonl", help="file inside evals/results/")
+    ap.add_argument("--tag", default="", help="suffix for the report files, e.g. baseline")
+    args = ap.parse_args()
+    ANS = RESULTS / args.answers
+    suffix = f"_{args.tag}" if args.tag else ""
+    REPORT = RESULTS / f"report{suffix}.md"
+    FAILS = RESULTS / f"failures{suffix}.csv"
+
     qs = {q["id"]: q for q in load(SET)}
     ans = {a["id"]: a for a in load(ANS)}
     missing = [i for i in qs if i not in ans]
@@ -91,10 +101,11 @@ def main() -> None:
         if main_route in ("retrieve", "calculator", "tdr_tool"):
             check("has_sources", q, len(a.get("sources", [])) > 0, "no sources attached")
 
-        # 6. Old-rule check on stale traps (and everywhere, as a warning)
+        # 6. Old-rule check on stale traps: old cut-off stated WITHOUT saying it's outdated
         if q["slice"] == "stale_trap":
             hit = OLD_RULE.search(a["answer"])
-            check("no_old_rule_stale", q, not hit, f"mentions '{hit.group(0)}'" if hit else "")
+            bad = bool(hit) and not CORRECTED.search(a["answer"])
+            check("no_old_rule_stale", q, not bad, f"mentions '{hit.group(0)}' as current" if bad else "")
 
         # 7. Language: Hinglish question -> Hinglish answer (as classified)
         if q["lang"] == "hinglish":

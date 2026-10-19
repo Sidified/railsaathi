@@ -83,10 +83,11 @@ def test_train_cancelled_does_not_need_hours(fake_llm):
     assert not s["fallback_used"]
 
 
-def test_tdr_without_situation_asks(fake_llm):
+def test_tdr_without_situation_answers_from_rules(fake_llm):
+    """A general TDR question (no single situation) is answered from the rules, not asked back."""
     fake_llm(intent="tdr")
     s = run("How do I file a TDR?")
-    assert s["path"] == ["classify", "check_tdr_details", "ask_missing", "finalize"]
+    assert s["path"] == ["classify", "check_tdr_details", "retrieve", "generate", "self_check", "finalize"]
 
 
 def test_tdr_with_situation_runs_tool(fake_llm):
@@ -99,10 +100,10 @@ def test_tdr_with_situation_runs_tool(fake_llm):
 
 
 @pytest.mark.parametrize("intent, calls", [
-    ("rule_question", 2), ("refund_calc", 1), ("tdr", 1), ("out_of_scope", 1),
+    ("rule_question", 2), ("refund_calc", 1), ("tdr", 2), ("out_of_scope", 1),
 ])
 def test_llm_call_budget_never_above_two(fake_llm, intent, calls):
-    fake_llm(intent=intent)                        # refund/tdr without details -> ask_missing
+    fake_llm(intent=intent)        # refund without details -> ask_missing; tdr without situation -> retrieve
     assert run("anything")["llm_calls"] == calls
 
 

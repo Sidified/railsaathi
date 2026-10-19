@@ -1,0 +1,50 @@
+metric,id,slice,lang,origin,question,detail
+has_sources,q049,rule,en,real,Is boarding station change allowed on Premium Tatkal or current booking ticket?,no sources attached
+has_sources,q054,rule,en,real,Can I take 2 23kg bag in Vande Bharat?,no sources attached
+has_sources,q055,rule,en,real,It seems like 65 kgs is the total weight and the allowed baggage is 35 so excess of 30 kg is being charged at 9 rupees per kg = 270 Rs right?,no sources attached
+has_sources,q058,rule,en,real,"My train got delayed by 4 Hrs, can i travel with confirmed ticket (Booked online) on another in same route?",no sources attached
+has_sources,q060,out_of_scope,en,real,"Hi my waiting list is 19 and 20 in Begumpura Express, will it get confirmed?",no sources attached
+has_sources,q061,out_of_scope,hinglish,real,RAC train ticket general case mein confirm ho jayegi ya train bhi cancel ho skti hai?,no sources attached
+has_sources,q063,out_of_scope,en,real,Does the irctc e-wallet has minimum balance requirement or something? Why can't I use the amount in my e-wallet?,no sources attached
+refund_exact,q018,refund,en,real,"Cancelled a confirmed Tatkal 3E ticket 25 hours before departure, what refund can I expect?","expected 0.00, tool None, amounts in answer []"
+refuse_out_of_scope,q038,out_of_scope,en,real,Free Cancellation Charges - How does it Work?,got retrieve
+refuse_out_of_scope,q060,out_of_scope,en,real,"Hi my waiting list is 19 and 20 in Begumpura Express, will it get confirmed?",got retrieve
+refuse_out_of_scope,q061,out_of_scope,hinglish,real,RAC train ticket general case mein confirm ho jayegi ya train bhi cancel ho skti hai?,got retrieve
+refuse_out_of_scope,q063,out_of_scope,en,real,Does the irctc e-wallet has minimum balance requirement or something? Why can't I use the amount in my e-wallet?,got retrieve
+refuse_out_of_scope,q065,out_of_scope,en,real,How do you even book tatkal ticket?,got retrieve
+refuse_out_of_scope,q073,out_of_scope,hinglish,real,"8644 rupaye kat gaye par ticket book nahi hua, refund kab aayega?",got retrieve
+routing,d047,tdr,en,drafted,We were 4 on one PNR but only 2 of us travelled. How do we get refund for the other 2?,"got ask_missing, expected ['tdr_tool']"
+routing,d050,tdr,en,drafted,"I just decided not to travel today, train leaves in 3 hours. Should I file a TDR?","got ask_missing, expected ['calculator', 'tdr_tool']"
+routing,q001,rule,en,real,In AC class my RAC berth is shared with another passenger. Do I get any partial refund?,"got tdr_tool, expected ['retrieve']"
+routing,q002,rule,hinglish,real,"IRCTC refund delay hone par WL, CNF, Tatkal ka paisa kab aur kaise milega?","got ask_missing, expected ['retrieve']"
+routing,q003,rule,en,real,"Booked sleeper tatkal ticket n i got waiting list, now I want to cancel it. Will I get refund if I cancel tatkal waitlist ticket?","got ask_missing, expected ['retrieve']"
+routing,q004,rule,en,real,What are the charges for self cancellation of waitlist tatkal ticket?,"got ask_missing, expected ['retrieve']"
+routing,q006,rule,en,real,No refund for partially used general ticket ?,"got ask_missing, expected ['retrieve']"
+routing,q007,rule,en,real,Do we get a refund if we cancel the confirmed ticket after chart preparation?,"got ask_missing, expected ['retrieve']"
+routing,q009,rule,en,real,"There are some charges for cancellation like platform fee, gst, plus fixed charges of 120/180/240 rs, but why do I also see an extra 10 rupees deducted?","got ask_missing, expected ['retrieve']"
+routing,q012,rule,en,real,Not sure but does it deduct fee when it auto cancels post waiting as well ?,"got ask_missing, expected ['retrieve']"
+routing,q013,rule,en,real,I cancelled my ticket a week before the journey and still Rs 230 was deducted. Why are there cancellation charges?,"got ask_missing, expected ['retrieve']"
+routing,q014,rule,hinglish,real,Ticket confirm nahi huyi thi apne app cancel huyi thi fir bhi charge lagega kya?,"got ask_missing, expected ['retrieve']"
+routing,q015,rule,hinglish,real,Waiting ticket mein refund ke liye agar opt kiya khud se toh charges lagte hai kya?,"got ask_missing, expected ['retrieve']"
+routing,q016,rule,en,real,"I booked tatkal e-ticket for 4 people in EC class of Vande Bharat, out of which only one is confirmed. If I cancel all the four including the one confirmed, how much refund will I get?","got ask_missing, expected ['retrieve']"
+routing,q017,rule,en,real,"Unconfirmed Tatkal ticket refund doubts, paid Rs.697 and got Rs.440 as refund. What am I missing?","got ask_missing, expected ['retrieve']"
+routing,q019,rule,hinglish,real,Ticket abhi cancel karne par thoda bohot refund milega ya charting ke baad karna chahiye?,"got ask_missing, expected ['retrieve']"
+routing,q020,rule,hinglish,real,Irctc mein ticket khud cancel karne par aur waitinglist ke wajah se cancel hone par kya dono cases mein khud paise refund hojate hai source account mein?,"got ask_missing, expected ['retrieve']"
+routing,q022,tdr,en,real,I have to file TDR after cancelling ticket or ticket will cancel automatically?,"got ask_missing, expected ['tdr_tool', 'retrieve']"
+routing,q026,tdr,hinglish,real,"Galat tatkal ticket par TDR file karna hota hai kya full refund ke liye, kyunki cancel karne pe nahi milega?","got ask_missing, expected ['tdr_tool', 'retrieve']"
+routing,q029,tdr,hinglish,real,Train itna crowded tha ki main chadh hi nahi paya. TDR reject ho gaya toh kaise prove karu?,"got ask_missing, expected ['tdr_tool', 'retrieve']"
+routing,q033,tdr,en,real,My TDR has been repudiated (rejected) by Central Railway because I selected the wrong reason. What can I do?,"got ask_missing, expected ['tdr_tool', 'retrieve']"
+routing,q036,rule,en,real,"Suppose I paid 1360 to book a ticket, how much prior I have to cancel to get most benefit?","got ask_missing, expected ['retrieve']"
+routing,q038,out_of_scope,en,real,Free Cancellation Charges - How does it Work?,"got retrieve, expected ['refuse']"
+routing,q040,rule,en,real,Can I get clarity on cancellation charges and rules after the train departs?,"got ask_missing, expected ['retrieve']"
+routing,q045,rule,en,real,Is there a cancellation fee for waitlisted tickets?,"got ask_missing, expected ['retrieve']"
+routing,q047,rule,hinglish,real,Railways me ek baar book kar liya to time se pehle cancel karne par bhi tujhe cancellation charge dena padega kya?,"got ask_missing, expected ['retrieve']"
+routing,q060,out_of_scope,en,real,"Hi my waiting list is 19 and 20 in Begumpura Express, will it get confirmed?","got retrieve, expected ['refuse']"
+routing,q061,out_of_scope,hinglish,real,RAC train ticket general case mein confirm ho jayegi ya train bhi cancel ho skti hai?,"got retrieve, expected ['refuse']"
+routing,q063,out_of_scope,en,real,Does the irctc e-wallet has minimum balance requirement or something? Why can't I use the amount in my e-wallet?,"got retrieve, expected ['refuse']"
+routing,q065,out_of_scope,en,real,How do you even book tatkal ticket?,"got retrieve, expected ['refuse']"
+routing,q067,missing_info,en,real,"My train is late by more than 10 hr, how much refund i can get?","got tdr_tool, expected ['ask_missing', 'retrieve']"
+routing,q073,out_of_scope,hinglish,real,"8644 rupaye kat gaye par ticket book nahi hua, refund kab aayega?","got retrieve, expected ['refuse']"
+routing,q075,stale_trap,en,real,"Refund depends on cancelling 48hr/12hr/4hr before the journey, so how can I get a full refund if my train is rescheduled by more than 3 hours?","got tdr_tool, expected ['retrieve', 'ask_missing', 'calculator']"
+tdr_situation,d047,tdr,en,drafted,We were 4 on one PNR but only 2 of us travelled. How do we get refund for the other 2?,"expected T8, got None via ask_missing"
+tdr_situation,d050,tdr,en,drafted,"I just decided not to travel today, train leaves in 3 hours. Should I file a TDR?","expected T10, got None via ask_missing"

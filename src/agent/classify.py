@@ -36,16 +36,24 @@ class TicketDetails(BaseModel):
 
 class Classification(BaseModel):
     intent: Intent = Field(description=(
-        "refund_calc: user wants to know how much money they get back / lose, or whether to cancel. "
+        "refund_calc: ONLY when the user wants the AMOUNT for THEIR OWN ticket "
+        "('how much will I get back', 'kitna milega', 'my 2AC ticket of Rs 900...'). "
+        "rule_question: how a rule works in general, even if it mentions refunds or charges: "
+        "'is there a fee for...', 'will I get a refund if...', 'why was Rs X deducted', "
+        "'when will the money come', 'what are the charges for...', 'best time to cancel'. "
+        "Also Tatkal, boarding change, upgrade, charting, luggage, ID proof, waitlist/RAC rules. "
         "tdr: something went wrong on the railway side (train late, AC failure, diverted, lower class, "
-        "missed connection) or user asks about TDR. "
-        "rule_question: any other Indian Railways passenger rule (Tatkal, boarding change, upgrade, "
-        "charting, luggage, ID proof, booking period, waitlist/RAC rules). "
-        "out_of_scope: anything else, including live PNR status, train timings, booking a ticket."))
+        "missed connection, some passengers could not travel) or the user asks about filing or a rejected TDR. "
+        "out_of_scope: NOT a passenger rule: live PNR or train status, chances of a waitlist/RAC ticket "
+        "getting confirmed, how to book, payment failures or money deducted without a ticket, "
+        "IRCTC account/e-wallet/app problems, third-party add-ons like 'free cancellation' insurance, "
+        "customer care, anything not about trains."))
     language: Literal["en", "hinglish"] = Field(description="hinglish if the user writes Hindi in Roman letters")
     search_query: str = Field(description="A short, standalone ENGLISH search query for the rules, using words from official rules (e.g. 'RAC ticket cancellation clerkage refund')")
     ticket: TicketDetails = Field(default_factory=TicketDetails)
-    tdr_situation: Situation | None = Field(None, description="Only for intent=tdr, if the situation is clear")
+    tdr_situation: Situation | None = Field(None, description=(
+        "Only for intent=tdr, if the situation is clear. partial_travel = only some passengers on the "
+        "PNR travelled. did_not_travel_own_choice = the user simply decided not to travel."))
     booking_type: BookingType | None = Field(None, description="e_ticket if booked online/IRCTC/app, counter_ticket if bought at station")
 
 
