@@ -1,0 +1,347 @@
+{
+ "totals": {
+  "intent": 12,
+  "language": 12,
+  "fields": 12
+ },
+ "n": 12,
+ "rows": [
+  {
+   "id": "c01",
+   "question": "Cancelling my 3AC ticket of Rs 1850, 20 hours before departure. How much refund?",
+   "expect": {
+    "intent": "refund_calc",
+    "language": "en",
+    "travel_class": "3A",
+    "fare_per_passenger": 1850,
+    "hours_before_departure": 20
+   },
+   "got": {
+    "intent": "refund_calc",
+    "language": "en",
+    "search_query": "3AC ticket cancellation refund charges 20 hours before departure",
+    "ticket": {
+     "train_type": null,
+     "travel_class": "3A",
+     "quota": null,
+     "ticket_status": null,
+     "fare_per_passenger": 1850.0,
+     "passengers": null,
+     "hours_before_departure": 20.0,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c02",
+   "question": "My waitlist is 38 and the train is in 2 days. Should I cancel now or wait?",
+   "expect": {
+    "intent": "refund_calc",
+    "language": "en",
+    "ticket_status": "waitlisted",
+    "hours_before_departure": 48
+   },
+   "got": {
+    "intent": "refund_calc",
+    "language": "en",
+    "search_query": "waitlisted ticket cancellation refund rules 48 hours before departure",
+    "ticket": {
+     "train_type": null,
+     "travel_class": null,
+     "quota": null,
+     "ticket_status": "waitlisted",
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": 48.0,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c03",
+   "question": "Train was 4 hours late and I didn't travel. Full refund? How do I file a TDR?",
+   "expect": {
+    "intent": "tdr",
+    "language": "en",
+    "tdr_situation": "train_late_3h_not_travelled"
+   },
+   "got": {
+    "intent": "tdr",
+    "language": "en",
+    "search_query": "train late more than 3 hours refund TDR filing rules",
+    "ticket": {
+     "train_type": null,
+     "travel_class": null,
+     "quota": null,
+     "ticket_status": null,
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": null,
+     "train_cancelled": null
+    },
+    "tdr_situation": "train_late_3h_not_travelled",
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c04",
+   "question": "Tatkal timings for sleeper class?",
+   "expect": {
+    "intent": "rule_question",
+    "language": "en"
+   },
+   "got": {
+    "intent": "rule_question",
+    "language": "en",
+    "search_query": "Tatkal booking timing for sleeper class",
+    "ticket": {
+     "train_type": null,
+     "travel_class": "SL",
+     "quota": "tatkal",
+     "ticket_status": null,
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": null,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c05",
+   "question": "Can I change my boarding station?",
+   "expect": {
+    "intent": "rule_question",
+    "language": "en"
+   },
+   "got": {
+    "intent": "rule_question",
+    "language": "en",
+    "search_query": "change boarding station rule Indian Railways",
+    "ticket": {
+     "train_type": null,
+     "travel_class": null,
+     "quota": null,
+     "ticket_status": null,
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": null,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c06",
+   "question": "Baggage limit in 2AC?",
+   "expect": {
+    "intent": "rule_question",
+    "language": "en"
+   },
+   "got": {
+    "intent": "rule_question",
+    "language": "en",
+    "search_query": "baggage limit luggage allowance 2AC",
+    "ticket": {
+     "train_type": null,
+     "travel_class": "2A",
+     "quota": null,
+     "ticket_status": null,
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": null,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c07",
+   "question": "mera ticket RAC hai, cancel karu toh kitna paisa milega?",
+   "expect": {
+    "intent": "refund_calc",
+    "language": "hinglish",
+    "ticket_status": "rac"
+   },
+   "got": {
+    "intent": "refund_calc",
+    "language": "hinglish",
+    "search_query": "RAC ticket cancellation refund rules clerkage",
+    "ticket": {
+     "train_type": null,
+     "travel_class": null,
+     "quota": null,
+     "ticket_status": "rac",
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": null,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c08",
+   "question": "AC kaam nahi kar raha tha poori raat, refund milega kya?",
+   "expect": {
+    "intent": "tdr",
+    "language": "hinglish",
+    "tdr_situation": "ac_failure"
+   },
+   "got": {
+    "intent": "tdr",
+    "language": "hinglish",
+    "search_query": "AC failure refund TDR rules",
+    "ticket": {
+     "train_type": null,
+     "travel_class": null,
+     "quota": null,
+     "ticket_status": null,
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": null,
+     "train_cancelled": null
+    },
+    "tdr_situation": "ac_failure",
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c09",
+   "question": "What is the PNR status of 4521367890?",
+   "expect": {
+    "intent": "out_of_scope",
+    "language": "en"
+   },
+   "got": {
+    "intent": "out_of_scope",
+    "language": "en",
+    "search_query": "PNR status check",
+    "ticket": {
+     "train_type": null,
+     "travel_class": null,
+     "quota": null,
+     "ticket_status": null,
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": null,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c10",
+   "question": "Who won the IPL this year?",
+   "expect": {
+    "intent": "out_of_scope",
+    "language": "en"
+   },
+   "got": {
+    "intent": "out_of_scope",
+    "language": "en",
+    "search_query": "IPL winner",
+    "ticket": {
+     "train_type": null,
+     "travel_class": null,
+     "quota": null,
+     "ticket_status": null,
+     "fare_per_passenger": null,
+     "passengers": null,
+     "hours_before_departure": null,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c11",
+   "question": "It was sleeper class and the fare was 450",
+   "history": [
+    {
+     "role": "user",
+     "content": "I want to cancel my confirmed ticket 30 hours before the train. How much will I get?"
+    },
+    {
+     "role": "assistant",
+     "content": "To calculate your refund I need: class and fare per passenger."
+    }
+   ],
+   "expect": {
+    "intent": "refund_calc",
+    "language": "en",
+    "travel_class": "SL",
+    "fare_per_passenger": 450,
+    "hours_before_departure": 30
+   },
+   "got": {
+    "intent": "refund_calc",
+    "language": "en",
+    "search_query": "confirmed ticket cancellation charges sleeper class refund",
+    "ticket": {
+     "train_type": null,
+     "travel_class": "SL",
+     "quota": null,
+     "ticket_status": "confirmed",
+     "fare_per_passenger": 450.0,
+     "passengers": null,
+     "hours_before_departure": 30.0,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  },
+  {
+   "id": "c12",
+   "question": "Vande Bharat sleeper ka confirmed 2AC ticket 3 din pehle cancel kiya, 3000 rupaye ka tha. Kitna wapas milega?",
+   "expect": {
+    "intent": "refund_calc",
+    "language": "hinglish",
+    "train_type": "vb_sleeper_amrit_bharat_2",
+    "travel_class": "2A",
+    "fare_per_passenger": 3000,
+    "hours_before_departure": 72
+   },
+   "got": {
+    "intent": "refund_calc",
+    "language": "hinglish",
+    "search_query": "Vande Bharat Sleeper confirmed ticket cancellation refund 3 days before",
+    "ticket": {
+     "train_type": "vb_sleeper_amrit_bharat_2",
+     "travel_class": "2A",
+     "quota": null,
+     "ticket_status": "confirmed",
+     "fare_per_passenger": 3000.0,
+     "passengers": null,
+     "hours_before_departure": 72.0,
+     "train_cancelled": null
+    },
+    "tdr_situation": null,
+    "booking_type": null
+   },
+   "wrong": {}
+  }
+ ]
+}
