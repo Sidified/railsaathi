@@ -20,8 +20,10 @@ RESULTS = Path("evals/results")
 # so a human can confirm it.
 OLD_RULE = re.compile(r"\b(48|12|4)\s*(-|to)?\s*(hours?|hrs?|h|ghante)\b", re.I)
 # ...but mentioning the old rule in order to correct it ("the old 48-hour rule was revised") is right.
-CORRECTED = re.compile(r"\b(old|older|earlier|previous|revised|replaced|no longer|purana|pehle ka|ab nahi)\b", re.I)
-MONEY = re.compile(r"(?:Rs\.?|₹|INR)\s*([\d,]+(?:\.\d{1,2})?)", re.I)
+CORRECTED = re.compile(r"\b(old|older|earlier|previous|revised|replaced|no longer|purana|purane|pehle ka|pehle ke|badal|ab nahi)\b", re.I)
+MONEY = re.compile(r"(?:Rs\.?|₹|INR)\s*([\d,]+(?:\.\d{1,2})?)", re.I)          # "Rs 1000"
+MONEY_AFTER = re.compile(r"([\d,]+(?:\.\d{1,2})?)\s*(?:Rs\.?|₹|rupaye|rupees)", re.I)  # "1000 Rs", "1000 rupaye"
+FULL_REFUND = re.compile(r"full refund|pura (paisa|refund)|poora (paisa|refund)", re.I)
 # The agent's honest "I don't have this rule" answer (English or Hinglish)
 ABSTAIN = re.compile(r"not sure based on the official rules|pakka nahi|official rules mein nahi", re.I)
 
@@ -32,7 +34,7 @@ def load(p: Path) -> list[dict]:
 
 def amounts(text: str) -> set[Decimal]:
     out = set()
-    for m in MONEY.finditer(text or ""):
+    for m in list(MONEY.finditer(text or "")) + list(MONEY_AFTER.finditer(text or "")):
         try:
             out.add(Decimal(m.group(1).replace(",", "")))
         except InvalidOperation:
@@ -79,12 +81,16 @@ def main() -> None:
         check("routing", q, main_route in q["expected_route"],
               f"got {main_route}, expected {q['expected_route']}")
 
-        # 2. Refund exactness: tool total == expected AND the amount appears in the answer
+        # 2. Refund exactness: tool total == expected AND the amount appears in the answer.
+        #    Train cancelled by Railways: the TDR tool's T1 ("full refund") is also correct.
         if q.get("expected_refund") is not None:
             exp = Decimal(q["expected_refund"])
             tool = a.get("tool_refund_total")
-            tool_ok = tool is not None and Decimal(tool) == exp
-            text_ok = exp in amounts(a["answer"]) or (exp == 0 and re.search(r"no refund|nahi milega|kuch nahi|Rs\.? ?0\b", a["answer"], re.I))
+            full_refund_case = (q.get("params") or {}).get("cancelled") and a.get("tool_rule_id") == "T1"
+            tool_ok = (tool is not None and Decimal(tool) == exp) or full_refund_case
+            text_ok = (exp in amounts(a["answer"])
+                       or (exp == 0 and re.search(r"no refund|nahi milega|kuch nahi|Rs\.? ?0\b", a["answer"], re.I))
+                       or (full_refund_case and FULL_REFUND.search(a["answer"])))
             check("refund_exact", q, bool(tool_ok and text_ok),
                   f"expected {exp}, tool {tool}, amounts in answer {sorted(amounts(a['answer']))}")
 

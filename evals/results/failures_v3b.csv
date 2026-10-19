@@ -1,0 +1,25 @@
+metric,id,slice,lang,origin,question,detail
+abstain,q001,rule,en,real,In AC class my RAC berth is shared with another passenger. Do I get any partial refund?,said 'not sure' (topic may not be in docs)
+abstain,q009,rule,en,real,"There are some charges for cancellation like platform fee, gst, plus fixed charges of 120/180/240 rs, but why do I also see an extra 10 rupees deducted?",said 'not sure' (topic may not be in docs)
+abstain,q023,tdr,en,real,My train was more than 4 hours late but I still travelled. Do I get any refund?,said 'not sure' (topic IS in docs)
+abstain,q031,tdr,en,real,What to do after TDR is declined when the train was more than 8 hours late and we didn't travel? What do they mean by NO INFORMATION AVAILABLE?,said 'not sure' (topic IS in docs)
+abstain,q033,tdr,en,real,My TDR has been repudiated (rejected) by Central Railway because I selected the wrong reason. What can I do?,said 'not sure' (topic IS in docs)
+abstain,q049,rule,en,real,Is boarding station change allowed on Premium Tatkal or current booking ticket?,said 'not sure' (topic may not be in docs)
+abstain,q051,rule,hinglish,real,"Confirmed tatkal ticket galat book ho gaya, waise to I don't think koi milega par kya kisi aur ko ticket sell ya transfer kar sakte hai?",said 'not sure' (topic may not be in docs)
+abstain,q054,rule,en,real,Can I take 2 23kg bag in Vande Bharat?,said 'not sure' (topic IS in docs)
+abstain,q055,rule,en,real,It seems like 65 kgs is the total weight and the allowed baggage is 35 so excess of 30 kg is being charged at 9 rupees per kg = 270 Rs right?,said 'not sure' (topic IS in docs)
+abstain,q056,rule,en,real,How to upgrade class of service on IRCTC web ticket for when a higher class (1A or EC) of service becomes available?,said 'not sure' (topic IS in docs)
+abstain,q058,rule,en,real,"My train got delayed by 4 Hrs, can i travel with confirmed ticket (Booked online) on another in same route?",said 'not sure' (topic may not be in docs)
+no_old_rule_stale,q080,stale_trap,hinglish,real,Agar main 48 ghante se pehle cancel karu toh full refund milna chahiye na?,mentions '48 ghante' as current
+refund_exact,d065,stale_trap,en,drafted,"Since I'm cancelling more than 48 hours before, only Rs 200 is cut for my 2AC ticket of Rs 2400, correct? It's 60 hours before departure.","expected 1800.00, tool None, amounts in answer [Decimal('200')]"
+refund_exact,q018,refund,en,real,"Cancelled a confirmed Tatkal 3E ticket 25 hours before departure, what refund can I expect?","expected 0.00, tool None, amounts in answer []"
+routing,d050,tdr,en,drafted,"I just decided not to travel today, train leaves in 3 hours. Should I file a TDR?","got retrieve, expected ['calculator', 'tdr_tool']"
+routing,d051,tdr,hinglish,drafted,"Train 4 ghante late hai, main nahi jaana chahta. TDR kab tak file karna padega?","got retrieve, expected ['tdr_tool']"
+routing,d065,stale_trap,en,drafted,"Since I'm cancelling more than 48 hours before, only Rs 200 is cut for my 2AC ticket of Rs 2400, correct? It's 60 hours before departure.","got retrieve, expected ['calculator']"
+routing,q001,rule,en,real,In AC class my RAC berth is shared with another passenger. Do I get any partial refund?,"got tdr_tool, expected ['retrieve']"
+routing,q003,rule,en,real,"Booked sleeper tatkal ticket n i got waiting list, now I want to cancel it. Will I get refund if I cancel tatkal waitlist ticket?","got ask_missing, expected ['retrieve']"
+routing,q016,rule,en,real,"I booked tatkal e-ticket for 4 people in EC class of Vande Bharat, out of which only one is confirmed. If I cancel all the four including the one confirmed, how much refund will I get?","got ask_missing, expected ['retrieve']"
+routing,q067,missing_info,en,real,"My train is late by more than 10 hr, how much refund i can get?","got tdr_tool, expected ['ask_missing', 'retrieve']"
+routing,q075,stale_trap,en,real,"Refund depends on cancelling 48hr/12hr/4hr before the journey, so how can I get a full refund if my train is rescheduled by more than 3 hours?","got tdr_tool, expected ['retrieve', 'ask_missing', 'calculator']"
+tdr_situation,d050,tdr,en,drafted,"I just decided not to travel today, train leaves in 3 hours. Should I file a TDR?","expected T10, got None via retrieve"
+tdr_situation,d051,tdr,hinglish,drafted,"Train 4 ghante late hai, main nahi jaana chahta. TDR kab tak file karna padega?","expected T2, got None via retrieve"

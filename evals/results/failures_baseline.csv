@@ -1,11 +1,14 @@
 metric,id,slice,lang,origin,question,detail
-has_sources,q049,rule,en,real,Is boarding station change allowed on Premium Tatkal or current booking ticket?,no sources attached
-has_sources,q054,rule,en,real,Can I take 2 23kg bag in Vande Bharat?,no sources attached
-has_sources,q055,rule,en,real,It seems like 65 kgs is the total weight and the allowed baggage is 35 so excess of 30 kg is being charged at 9 rupees per kg = 270 Rs right?,no sources attached
-has_sources,q058,rule,en,real,"My train got delayed by 4 Hrs, can i travel with confirmed ticket (Booked online) on another in same route?",no sources attached
-has_sources,q060,out_of_scope,en,real,"Hi my waiting list is 19 and 20 in Begumpura Express, will it get confirmed?",no sources attached
-has_sources,q061,out_of_scope,hinglish,real,RAC train ticket general case mein confirm ho jayegi ya train bhi cancel ho skti hai?,no sources attached
-has_sources,q063,out_of_scope,en,real,Does the irctc e-wallet has minimum balance requirement or something? Why can't I use the amount in my e-wallet?,no sources attached
+abstain,q001,rule,en,real,In AC class my RAC berth is shared with another passenger. Do I get any partial refund?,said 'not sure' (topic may not be in docs)
+abstain,q024,tdr,en,real,I have two confirmed bookings for the same journey. Should I cancel one normally or file a TDR?,said 'not sure' (topic IS in docs)
+abstain,q031,tdr,en,real,What to do after TDR is declined when the train was more than 8 hours late and we didn't travel? What do they mean by NO INFORMATION AVAILABLE?,said 'not sure' (topic IS in docs)
+abstain,q049,rule,en,real,Is boarding station change allowed on Premium Tatkal or current booking ticket?,said 'not sure' (topic may not be in docs)
+abstain,q054,rule,en,real,Can I take 2 23kg bag in Vande Bharat?,said 'not sure' (topic IS in docs)
+abstain,q055,rule,en,real,It seems like 65 kgs is the total weight and the allowed baggage is 35 so excess of 30 kg is being charged at 9 rupees per kg = 270 Rs right?,said 'not sure' (topic IS in docs)
+abstain,q058,rule,en,real,"My train got delayed by 4 Hrs, can i travel with confirmed ticket (Booked online) on another in same route?",said 'not sure' (topic may not be in docs)
+abstain,q060,out_of_scope,en,real,"Hi my waiting list is 19 and 20 in Begumpura Express, will it get confirmed?",said 'not sure' (topic IS in docs)
+abstain,q061,out_of_scope,hinglish,real,RAC train ticket general case mein confirm ho jayegi ya train bhi cancel ho skti hai?,said 'not sure' (topic IS in docs)
+abstain,q063,out_of_scope,en,real,Does the irctc e-wallet has minimum balance requirement or something? Why can't I use the amount in my e-wallet?,said 'not sure' (topic IS in docs)
 refund_exact,q018,refund,en,real,"Cancelled a confirmed Tatkal 3E ticket 25 hours before departure, what refund can I expect?","expected 0.00, tool None, amounts in answer []"
 refuse_out_of_scope,q038,out_of_scope,en,real,Free Cancellation Charges - How does it Work?,got retrieve
 refuse_out_of_scope,q060,out_of_scope,en,real,"Hi my waiting list is 19 and 20 in Begumpura Express, will it get confirmed?",got retrieve
