@@ -1,0 +1,17 @@
+n,id,faithful_yes_no,note
+1,q024,yes,both claims supported (cancel before charting #15; TDR removed PIB)
+2,q080,yes,old rule replaced + 25% band supported; no full refund is correct
+3,q021,yes,every sentence is clause 6 (#08) almost word for word
+4,q013,yes,flat charges match #02; 'April 2026' date not in chunk text (minor)
+5,q035,no,says WL that gets RAC is 'treated as reserved' - chunk says only CONFIRMED does
+6,q075,yes,clause 6 + PIB; all supported
+7,q078,yes,slab claims supported by NIS; '50% applied to your fare' is an inference about the user
+8,d065,yes,"supported (but gives no amount - relevancy issue, not faithfulness)"
+9,q006,yes,every claim is in clause 8 (#10) incl. the New Delhi address
+10,q041,yes,'no refund on confirmed Tatkal' is stated in both chunks
+11,q002,yes,supported; 'Rs 60 for AC classes' wording slightly ambiguous
+12,q019,no,asserts user has a WL/RAC ticket - user never said so
+13,q020,no,says WL e-ticket must be cancelled by user to get refund - not in chunks (full-WL refund is automatic)
+14,q023,yes,says 'not sure' (no claims); typo 'onado' in output - model glitch
+15,q057,yes,CC 10/2024 says cancellation beyond 60-day ARP permitted - supported
+16,q022,yes,TDR removed (PIB) + cancelled-train auto refund (#07) supported
