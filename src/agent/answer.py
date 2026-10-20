@@ -36,9 +36,7 @@ Rules:
    official rules I have" and suggest IRCTC or 139. Do not guess.
 6. Do not predict whether a waitlisted ticket will be confirmed.
 7. Write in {language}. Simple words. Under 150 words. Do not add a sources list - it is added
-   automatically.
-8. If the question assumes an OLD rule (48 hours, 12 hours or 4 hours as cancellation cut-offs),
-   first say clearly that this rule was replaced, then answer with the current rule. Never repeat the user's old cut-off as if it were a rule."""
+   automatically."""
 
 MONEY = re.compile(
     r"(?:Rs\.?|₹|INR)\s*([\d,]+(?:\.\d+)?)"            # Rs 925, ₹925.00, INR 1,850
@@ -113,6 +111,18 @@ def assumptions_line(defaults: dict | None, hinglish: bool) -> str:
     return "Assumed (you did not say): " + ", ".join(phrases) + ". Tell me if any of this is different."
 
 
+# Only when the user's question itself relies on the 2015 cut-offs (48h/12h/"4 hours before")
+OLD_RULE_Q = re.compile(
+    r"\b(48|12)[\s-]*(hours?|hrs?|h|ghante)\b|\b4[\s-]*(hours?|hrs?|h|ghante)\s*(before|pehle)\b|48\s*/\s*12", re.I)
+STALE_NOTE = ("\n\nThe question assumes an OLD rule (48, 12 or 4 hours as cancellation cut-offs). "
+              "First say clearly that this rule was replaced, then answer with the current rule. "
+              "Never repeat the user's old cut-off as if it were a rule.")
+
+
+def mentions_old_rule(question: str) -> bool:
+    return bool(OLD_RULE_Q.search(question))
+
+
 # ----------------------------------------------------------------- nodes
 def generate_node(state: dict) -> dict:
     c = state["classification"]
@@ -120,8 +130,10 @@ def generate_node(state: dict) -> dict:
     tool_text = format_tool_result(state.get("tool_name"), state.get("tool_result"))
     user = (f"TOOL RESULT:\n{tool_text}\n\nSOURCES:\n\n{format_sources(state['chunks'])}"
             f"\n\nQUESTION: {state['question']}")
-    text = call_llm([SystemMessage(content=SYSTEM_PROMPT.format(language=language)),
-                     HumanMessage(content=user)])
+    system = SYSTEM_PROMPT.format(language=language)
+    if mentions_old_rule(state["question"]):
+        system += STALE_NOTE
+    text = call_llm([SystemMessage(content=system), HumanMessage(content=user)])
     text = TOOL_TAG.sub("", text)        # defensive: drop "[TOOL RESULT]"-style tags if the LLM adds them
     return {"answer": text, "llm_calls": state["llm_calls"] + 1, "path": state["path"] + ["generate"]}
 

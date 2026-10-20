@@ -47,3 +47,14 @@ def test_rupees_word_is_checked():
 
 def test_empty_answer_fails():
     assert self_check(state("   ")) == ["empty answer"]
+
+
+
+
+def test_stale_note_only_when_question_uses_old_cutoffs():
+    from src.agent.answer import mentions_old_rule
+    assert mentions_old_rule("Under the 48-hour rule I lose only the flat charge, right?")
+    assert mentions_old_rule("48 ghante se pehle cancel karu toh?")
+    assert mentions_old_rule("is it 12 hours before departure for 50%?")
+    assert not mentions_old_rule("Cancelling my 3AC ticket of Rs 1850, 20 hours before departure")
+    assert not mentions_old_rule("Train is 4 hours late, I won't travel")   # a delay, not a cut-off

@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
     <title>RailSaathi — railway rules, explained</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -902,7 +903,8 @@
         input.addEventListener("keydown", (e) => {
             if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
         });
-        document.querySelectorAll(".ex").forEach((b) => b.addEventListener("click", () => ask(b.lastChild.textContent.trim())));
+        document.querySelectorAll(".ex").forEach((b) => b.addEventListener("click",
+            () => ask(b.lastChild.textContent.replace(/\s+/g, " ").trim())));
 
         fetch("/health").then((r) => r.json()).then((h) => {
             document.getElementById("verified").textContent = `Rules last verified on ${h.rules_last_verified}.`;
